@@ -1,5 +1,6 @@
 <script>
     import EmailForm from "./EmailForm.svelte";
+    import CourseCard from "./CourseCard.svelte";
 
     function reveal(node, { delay = 0 } = {}) {
         node.style.transitionDelay = `${delay}ms`;
@@ -28,7 +29,7 @@
 <!-- HERO -->
 <section id="top" class="hero">
     <div class="hero-inner" use:reveal>
-        <h1>Vaše jméno</h1>
+        <h1>Vašek Doškář</h1>
         <p class="subtitle">Programátor · Lektor · Tvůrce</p>
         <a href="#Courses" class="btn">Prohlédnout kurzy</a>
     </div>
@@ -39,21 +40,34 @@
     <div class="container">
         <h2 use:reveal>Kurzy</h2>
         <div class="cards">
-            <div class="card" use:reveal={{ delay: 0 }}>
-                <div class="card-icon">💻</div>
-                <h3>Webový vývoj</h3>
-                <p>HTML, CSS, JavaScript a moderní frameworky od základů po pokročilé techniky.</p>
-            </div>
-            <div class="card" use:reveal={{ delay: 100 }}>
-                <div class="card-icon">🐍</div>
-                <h3>Python</h3>
-                <p>Programování v Pythonu, datová analýza a automatizace každodenních úkolů.</p>
-            </div>
-            <div class="card" use:reveal={{ delay: 200 }}>
-                <div class="card-icon">🗄️</div>
-                <h3>Databáze</h3>
-                <p>SQL, návrh databázových schémat a práce s reálnými daty.</p>
-            </div>
+            <CourseCard
+                icon="💠"
+                title="C# Základy"
+                description="Solidní základ v jazyce C# – od syntaxe po práci se soubory a výjimkami."
+                href="/courses/csharp-zaklady"
+                delay={0}
+            />
+            <CourseCard
+                icon="🔷"
+                title="C# OOP"
+                description="Třídy, dědičnost, rozhraní, LINQ a async/await – OOP v C# do hloubky."
+                href="/courses/csharp-oop"
+                delay={100}
+            />
+            <CourseCard
+                icon="🌐"
+                title="ASP.NET Core"
+                description="Webové aplikace a REST API s ASP.NET Core, Entity Framework a autentizací."
+                href="/courses/aspnet-core"
+                delay={200}
+            />
+            <CourseCard
+                icon="🚀"
+                title="Fullstack: ASP.NET Core & React"
+                description="Kompletní fullstack aplikace – .NET backend, React frontend, Docker a CI/CD."
+                href="/courses/fullstack"
+                delay={300}
+            />
         </div>
     </div>
 </section>
@@ -172,47 +186,6 @@
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
         gap: 1.5rem;
-    }
-
-    .card {
-        background: #fff;
-        border: 1px solid #ede9f7;
-        border-radius: 12px;
-        padding: 2rem 1.5rem;
-        text-align: center;
-        box-shadow: 0 2px 12px rgba(118,23,156,0.07);
-        opacity: 0;
-        transform: translateY(36px);
-        transition: opacity 0.7s ease, transform 0.7s ease, box-shadow 0.3s ease;
-    }
-
-    .card:global(.visible) {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .card:hover {
-        box-shadow: 0 8px 28px rgba(118,23,156,0.15);
-    }
-
-    .card-icon {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-    }
-
-    .card h3 {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        font-size: 1.15rem;
-        font-weight: 600;
-        color: #2d0042;
-        margin-bottom: 0.75rem;
-    }
-
-    .card p {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        color: #555;
-        line-height: 1.65;
-        font-size: 0.95rem;
     }
 
     /* ── doučování ── */

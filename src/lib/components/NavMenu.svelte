@@ -12,7 +12,7 @@
 <nav class="navbar">
     <div class="navbar-inner">
         <div class="nav-links" class:open={menuOpen}>
-            <NavButton href="#top" title="Domů" onclick={closeMenu}/>
+            <NavButton href="/" title="Domů" onclick={closeMenu}/>
             <NavButton href="/courses" title="Kurzy" onclick={closeMenu}/>
             <NavButton href="#Tutoring" title="Doučování" onclick={closeMenu}/>
             <NavButton href="#JumpForm" title="Kontakt" onclick={closeMenu}/>
