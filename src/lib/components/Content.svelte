@@ -55,18 +55,25 @@
                 delay={100}
             />
             <CourseCard
+                icon="⚡"
+                title="Vlákna, Tasky & Async"
+                description="Thread, Task, async/await, paralelismus a synchronizační primitiva v C#."
+                href="/courses/async-programovani"
+                delay={200}
+            />
+            <CourseCard
                 icon="🌐"
                 title="ASP.NET Core"
                 description="Webové aplikace a REST API s ASP.NET Core, Entity Framework a autentizací."
                 href="/courses/aspnet-core"
-                delay={200}
+                delay={300}
             />
             <CourseCard
                 icon="🚀"
                 title="Fullstack: ASP.NET Core & React"
                 description="Kompletní fullstack aplikace – .NET backend, React frontend, Docker a CI/CD."
                 href="/courses/fullstack"
-                delay={300}
+                delay={400}
             />
         </div>
     </div>

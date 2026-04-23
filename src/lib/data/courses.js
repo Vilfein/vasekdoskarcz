@@ -78,7 +78,7 @@ export const courses = [
             'Rozhraní & abstrakce',
             'Generika',
             'LINQ',
-            'Async / Await'
+            'Lambda & delegáty'
         ],
         prerequisites: [
             'Znalost C# na úrovni kurzu C# Základy',
@@ -109,13 +109,77 @@ export const courses = [
                     'Generické třídy a metody',
                     'LINQ – dotazování nad kolekcemi',
                     'Lambda výrazy a delegáty',
-                    'Async a await – asynchronní programování'
+                    'Events a vlastní delegáty'
                 ]
             }
         ],
         project: {
             title: 'Závěrečný projekt: knihovna knih',
             description: 'Navrhneš a implementuješ systém pro správu knihovny – třídy Kniha, Autor, Výpůjčka. Použiješ dědičnost, rozhraní a LINQ pro filtrování a řazení sbírky.'
+        }
+    },
+    {
+        slug: 'async-programovani',
+        icon: '⚡',
+        title: 'Vlákna, Tasky a asynchronní programování',
+        description: 'Thread, Task, async/await, paralelismus a synchronizační primitiva v C#.',
+        longDescription: 'Pochopíte, jak C# pracuje s vlákny a proč vznikl model async/await. Naučíte se psát responzivní a výkonné aplikace, správně rušit operace přes CancellationToken a vyhnout se klasickým pastem jako deadlock nebo race condition.',
+        level: 'Pokročilý',
+        duration: '16 hodin',
+        price: '2 500 Kč',
+        topics: [
+            'Thread & ThreadPool',
+            'Task & Task<T>',
+            'async / await',
+            'CancellationToken',
+            'Parallel & PLINQ',
+            'Synchronizační primitiva'
+        ],
+        prerequisites: [
+            'Znalost C# OOP (třídy, rozhraní, generika)',
+            'Orientace v lambda výrazech a delegátech'
+        ],
+        curriculum: [
+            {
+                section: 'Vlákna a ThreadPool',
+                lessons: [
+                    'Co je vlákno a proč na tom záleží',
+                    'Třída Thread – vytvoření, spuštění, join',
+                    'ThreadPool a jeho výhody',
+                    'Problémy: race condition, deadlock'
+                ]
+            },
+            {
+                section: 'Task-based Asynchronous Pattern',
+                lessons: [
+                    'Task a Task<T> – vytvoření a spuštění',
+                    'async / await – principy a pravidla',
+                    'ConfigureAwait a synchronizační kontext',
+                    'Zpracování výjimek v asynchronním kódu'
+                ]
+            },
+            {
+                section: 'Řízení a rušení operací',
+                lessons: [
+                    'CancellationToken a CancellationTokenSource',
+                    'Progress<T> – hlášení průběhu',
+                    'Task.WhenAll, Task.WhenAny',
+                    'Timeout a kombinování tokenů'
+                ]
+            },
+            {
+                section: 'Paralelismus & synchronizace',
+                lessons: [
+                    'Parallel.For a Parallel.ForEach',
+                    'PLINQ – paralelní LINQ dotazy',
+                    'lock, Monitor, Mutex, Semaphore',
+                    'Concurrent kolekce (ConcurrentQueue, ConcurrentDictionary)'
+                ]
+            }
+        ],
+        project: {
+            title: 'Závěrečný projekt: paralelní stahovač souborů',
+            description: 'Napíšeš aplikaci, která stahuje seznam souborů paralelně, hlásí průběh, umožňuje operaci zrušit a zobrazí souhrn výsledků. Použiješ Task, async/await, CancellationToken a Progress<T>.'
         }
     },
     {
