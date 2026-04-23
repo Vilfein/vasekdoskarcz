@@ -16,7 +16,9 @@
             <NavButton href="/courses" title="Kurzy" onclick={closeMenu}/>
             <NavButton href="/#Tutoring" title="Doučování" onclick={closeMenu}/>
             <NavButton href="/#JumpForm" title="Kontakt" onclick={closeMenu}/>
+            <a href="/login" class="mobile-login-link" onclick={closeMenu}>Přihlásit se</a>
         </div>
+        <a href="/login" class="nav-login" onclick={closeMenu}>Přihlásit se</a>
         <button class="hamburger" onclick={() => menuOpen = !menuOpen} aria-label="Otevřít menu">
             <span class:rotated={menuOpen}></span>
             <span class:hidden={menuOpen}></span>
@@ -84,10 +86,54 @@
     .hamburger span.hidden          { opacity: 0; }
     .hamburger span.rotated-reverse { transform: translateY(-7px) rotate(-45deg); }
 
+    .nav-login {
+        position: absolute;
+        right: 1.5rem;
+        color: #fff;
+        text-decoration: none;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: 600;
+        font-size: 0.88rem;
+        letter-spacing: 0.03em;
+        padding: 0.35rem 1rem;
+        border: 1.5px solid rgba(255, 255, 255, 0.6);
+        border-radius: 100px;
+        transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .nav-login:hover {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: #fff;
+    }
+
+    .mobile-login-link {
+        display: none;
+    }
+
     /* mobilní menu */
     @media (max-width: 768px) {
         .hamburger {
             display: flex;
+        }
+
+        .nav-login {
+            display: none;
+        }
+
+        .mobile-login-link {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.03em;
+            padding: 0.75rem 1.5rem;
+            transition: color 0.2s ease;
+        }
+
+        .mobile-login-link:hover {
+            color: #e879f9;
         }
 
         .nav-links {
