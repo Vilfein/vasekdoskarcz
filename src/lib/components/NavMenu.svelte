@@ -14,8 +14,8 @@
         <div class="nav-links" class:open={menuOpen}>
             <NavButton href="/" title="Domů" onclick={closeMenu}/>
             <NavButton href="/courses" title="Kurzy" onclick={closeMenu}/>
-            <NavButton href="#Tutoring" title="Doučování" onclick={closeMenu}/>
-            <NavButton href="#JumpForm" title="Kontakt" onclick={closeMenu}/>
+            <NavButton href="/#Tutoring" title="Doučování" onclick={closeMenu}/>
+            <NavButton href="/#JumpForm" title="Kontakt" onclick={closeMenu}/>
         </div>
         <button class="hamburger" onclick={() => menuOpen = !menuOpen} aria-label="Otevřít menu">
             <span class:rotated={menuOpen}></span>

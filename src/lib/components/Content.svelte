@@ -265,6 +265,33 @@
         font-size: 6rem;
     }
 
+    /* ── tlačítko ── */
+    .btn {
+        display: inline-block;
+        padding: 0.75rem 2rem;
+        background: linear-gradient(135deg, #9B2EC8 0%, #e879f9 100%);
+        color: #fff;
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        font-size: 0.95rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        border-radius: 100px;
+        text-decoration: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+        box-shadow: 0 4px 18px rgba(155, 46, 200, 0.35);
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(155, 46, 200, 0.55);
+        filter: brightness(1.1);
+    }
+
+    .btn:active {
+        transform: translateY(0);
+        box-shadow: 0 3px 10px rgba(155, 46, 200, 0.3);
+    }
+
     /* ── responzivita ── */
     @media (max-width: 768px) {
         .tutoring-grid {

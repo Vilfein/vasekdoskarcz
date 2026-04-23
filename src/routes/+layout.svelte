@@ -1,5 +1,6 @@
 <script>
 	import favicon from "$lib/assets/favicon.svg";
+    import EditedFooter from "$lib/components/EditedFooter.svelte";
 	import Footer from "$lib/components/Footer.svelte";
 	import NavMenu from "$lib/components/NavMenu.svelte";
 
@@ -12,6 +13,7 @@
 <NavMenu>
 	<div class="layout">
 		<main>{@render children()}</main>
+		<!-- <Footer /> -->
 		<Footer />
 	</div>
 </NavMenu>
