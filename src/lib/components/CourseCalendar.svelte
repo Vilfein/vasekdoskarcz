@@ -69,6 +69,9 @@
                month === today.getMonth()  &&
                d     === today.getDate();
     }
+
+    const todayStr = today.toISOString().split('T')[0];
+    function isPast(dateStr) { return dateStr < todayStr; }
 </script>
 
 <div class="calendar">
@@ -91,7 +94,7 @@
                     <span class="day-num">{d}</span>
                     <div class="events">
                         {#each evMap[dateKey(d)] ?? [] as event}
-                            <a href="/courses/{event.slug}" class="chip av-{avStatus(event)}">
+                            <a href="/courses/{event.slug}" class="chip av-{avStatus(event)}" class:past={isPast(event.date)}>
                                 <span class="chip-icon">{event.icon}</span>
                                 <span class="chip-body">
                                     <span class="chip-name">{event.course}</span>
@@ -256,6 +259,13 @@
     .av-free   { background: #e8f5e9; color: #2e7d32; }
     .av-almost { background: #fff8e1; color: #e65100; }
     .av-full   { background: #fce4ec; color: #c62828; }
+
+    .chip.past {
+        background: #ebebeb;
+        color: #999;
+        pointer-events: none;
+    }
+    .chip.past .chip-name { text-decoration: line-through; }
 
     /* ── legend ── */
     .legend {

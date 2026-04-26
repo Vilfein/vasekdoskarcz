@@ -1,15 +1,15 @@
 <script>
     import Course from "$lib/components/Course.svelte";
     import CourseCalendar from "$lib/components/CourseCalendar.svelte";
-    import { courses } from "$lib/data/courses.js";
-    import { events } from "$lib/data/events.js";
+    import { coursesStore } from "$lib/stores/courses.svelte.js";
+    import { eventsStore } from "$lib/stores/events.svelte.js";
 </script>
 
 <section class="page-section">
     <div class="container">
         <h2 class="section-title">Kurzy</h2>
         <div class="courses-grid">
-            {#each courses as course}
+            {#each coursesStore.list as course}
                 <Course
                     icon={course.icon}
                     title={course.title}
@@ -26,7 +26,7 @@
 
         <div class="calendar-wrap">
             <h3 class="calendar-heading">Termíny a obsazenost</h3>
-            <CourseCalendar {events} />
+            <CourseCalendar events={eventsStore.list} />
         </div>
     </div>
 </section>

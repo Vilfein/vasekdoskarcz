@@ -1,6 +1,7 @@
 <script>
     import { goto } from '$app/navigation';
     import LoginForm from '$lib/components/LoginForm.svelte';
+    import { auth } from '$lib/stores/auth.svelte.js';
 
     async function handleLogin(email, password) {
         const res = await fetch('/api/login', {
@@ -14,6 +15,8 @@
             throw new Error(data.message ?? 'Nesprávné přihlašovací údaje');
         }
 
+        const userData = await res.json();
+        auth.login(userData);
         goto('/');
     }
 </script>

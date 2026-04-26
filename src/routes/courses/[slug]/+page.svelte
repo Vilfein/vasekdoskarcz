@@ -1,18 +1,49 @@
 <script>
     import CourseCalendar from '$lib/components/CourseCalendar.svelte';
-    import { events } from '$lib/data/events.js';
+    import { eventsStore } from '$lib/stores/events.svelte.js';
+    import { auth } from '$lib/stores/auth.svelte.js';
+    import { enrollments } from '$lib/stores/enrollments.svelte.js';
 
     let { data } = $props();
-    const { course } = data;
+    const course = $derived(data.course);
 
-    const courseEvents = events.filter(e => e.slug === course.slug);
+    const courseEvents = $derived(eventsStore.list.filter(e => e.slug === course.slug));
+
+    const today = new Date().toISOString().split('T')[0];
+    const upcomingEvents = $derived(
+        courseEvents
+            .filter(e => e.date >= today)
+            .sort((a, b) => a.date.localeCompare(b.date))
+    );
+
+    function fmtDate(s) {
+        return new Date(s).toLocaleDateString('cs-CZ', { weekday: 'short', day: 'numeric', month: 'long' });
+    }
+
+    function spotsLeft(ev) {
+        const left = ev.capacity - ev.enrolled;
+        if (left <= 0) return 'Plné';
+        if (left === 1) return '1 místo';
+        if (left < 5)  return `${left} místa`;
+        return `${left} míst`;
+    }
+
+    function handleEnroll(ev) {
+        enrollments.enroll(ev.id);
+        eventsStore.update(ev.id, { enrolled: ev.enrolled + 1 });
+    }
+
+    function handleCancel(ev) {
+        enrollments.cancel(ev.id);
+        eventsStore.update(ev.id, { enrolled: Math.max(0, ev.enrolled - 1) });
+    }
 
     const levelColors = {
         'Začátečník':      { bg: '#e8f5e9', text: '#2e7d32' },
         'Mírně pokročilý': { bg: '#fff8e1', text: '#f57f17' },
         'Pokročilý':       { bg: '#fce4ec', text: '#c62828' }
     };
-    const badge = levelColors[course.level] ?? { bg: '#ede9f7', text: '#76179C' };
+    const badge = $derived(levelColors[course.level] ?? { bg: '#ede9f7', text: '#76179C' });
 </script>
 
 <svelte:head>
@@ -93,7 +124,47 @@
         {#if courseEvents.length > 0}
             <section class="card-section">
                 <h2 class="section-label">Termíny a obsazenost</h2>
-                <CourseCalendar events={courseEvents} />
+                <CourseCalendar events={eventsStore.list} />
+            </section>
+        {/if}
+
+        <!-- PŘIHLÁŠENÍ NA TERMÍN -->
+        {#if upcomingEvents.length > 0}
+            <section class="card-section enroll-section">
+                <h2 class="section-label">Přihlásit se na termín</h2>
+                {#if auth.user}
+                    <div class="enroll-list">
+                        {#each upcomingEvents as ev (ev.id)}
+                            <div class="enroll-row" class:enrolled={enrollments.isEnrolled(ev.id)}>
+                                <div class="enroll-date">
+                                    <span class="enroll-day">{fmtDate(ev.date)}</span>
+                                    <span class="enroll-time">{ev.time}</span>
+                                </div>
+                                <span class="enroll-spots"
+                                    class:spots-full={ev.enrolled >= ev.capacity}
+                                    class:spots-warn={ev.enrolled >= ev.capacity * 0.8 && ev.enrolled < ev.capacity}>
+                                    {spotsLeft(ev)}
+                                </span>
+                                {#if enrollments.isEnrolled(ev.id)}
+                                    <button class="enroll-btn enrolled"
+                                            onclick={() => handleCancel(ev)}>
+                                        ✓ Přihlášen/a — Odhlásit
+                                    </button>
+                                {:else}
+                                    <button class="enroll-btn"
+                                            disabled={ev.enrolled >= ev.capacity}
+                                            onclick={() => handleEnroll(ev)}>
+                                        Zapsat se
+                                    </button>
+                                {/if}
+                            </div>
+                        {/each}
+                    </div>
+                {:else}
+                    <p class="enroll-login-hint">
+                        <a href="/login">Přihlaste se</a> pro zápis na termín.
+                    </p>
+                {/if}
             </section>
         {/if}
 
@@ -344,9 +415,75 @@
         transform: translateY(-2px);
     }
 
+    /* enrollment */
+    .enroll-section { padding: 1.75rem 0; }
+    .enroll-section .section-label { padding: 0 2rem; }
+
+    .enroll-list { display: flex; flex-direction: column; }
+
+    .enroll-row {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: .85rem 2rem;
+        border-top: 1px solid #f5f0fb;
+        transition: background .12s;
+    }
+    .enroll-row:hover { background: #faf7ff; }
+    .enroll-row.enrolled { background: #f6f0ff; }
+
+    .enroll-date { display: flex; flex-direction: column; min-width: 180px; }
+    .enroll-day  { font-size: .88rem; font-weight: 600; color: #2d0042; }
+    .enroll-time { font-size: .78rem; color: #888; margin-top: .1rem; }
+
+    .enroll-spots {
+        flex: 1;
+        font-size: .8rem;
+        font-weight: 600;
+        color: #2e7d32;
+    }
+    .spots-warn { color: #e65100; }
+    .spots-full { color: #c62828; }
+
+    .enroll-btn {
+        padding: .4rem 1.1rem;
+        border-radius: 8px;
+        border: none;
+        font-family: inherit;
+        font-size: .82rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: opacity .2s, background .15s;
+        white-space: nowrap;
+        background: linear-gradient(135deg, #9b2ec8 0%, #76179c 100%);
+        color: #fff;
+        box-shadow: 0 2px 8px rgba(155,46,200,.25);
+    }
+    .enroll-btn:hover:not(:disabled) { opacity: .88; }
+    .enroll-btn:disabled { opacity: .45; cursor: not-allowed; }
+    .enroll-btn.enrolled {
+        background: #f0eaff;
+        color: #76179c;
+        box-shadow: none;
+    }
+    .enroll-btn.enrolled:hover { background: #e0d0ff; }
+
+    .enroll-login-hint {
+        padding: 1.25rem 2rem;
+        font-size: .9rem;
+        color: #666;
+        margin: 0;
+    }
+    .enroll-login-hint a { color: #9b2ec8; font-weight: 600; text-decoration: none; }
+    .enroll-login-hint a:hover { text-decoration: underline; }
+
     @media (max-width: 600px) {
         .page { padding: 3.5rem 1.25rem 5rem; }
         .card-section, .curriculum { padding: 1.5rem; }
         .project-box { flex-direction: column; gap: 0.75rem; }
+        .enroll-row { flex-wrap: wrap; padding: .85rem 1.25rem; }
+        .enroll-section .section-label { padding: 0 1.25rem; }
+        .enroll-date { min-width: unset; }
+        .enroll-spots { flex: unset; }
     }
 </style>
