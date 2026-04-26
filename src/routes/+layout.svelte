@@ -1,5 +1,4 @@
 <script>
-	import favicon from "$lib/assets/favicon.svg";
     import EditedFooter from "$lib/components/EditedFooter.svelte";
 	import Footer from "$lib/components/Footer.svelte";
 	import NavMenu from "$lib/components/NavMenu.svelte";
@@ -8,7 +7,7 @@
 </script>
 
 <svelte:head>
-	<link rel="icon" href={favicon} />
+	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 </svelte:head>
 <NavMenu>
 	<div class="layout">

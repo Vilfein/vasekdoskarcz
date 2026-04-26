@@ -1,11 +1,12 @@
 import { json } from '@sveltejs/kit';
 
-// ─── TESTOVACÍ PŘIHLÁŠENÍ (smazat po napojení na server) ───────────────────
-//   E-mail : admin@vasekdoskar.cz
-//   Heslo  : admin
-// ───────────────────────────────────────────────────────────────────────────
+// ─── TESTOVACÍ ÚČTY (smazat po napojení na server) ──────────────────────────
+//   Admin  : admin@vasekdoskar.cz  /  admin123
+//   Uživatel: ahoj@seznam.cz       /  ahoj123
+// ────────────────────────────────────────────────────────────────────────────
 const USERS = [
-    { id: 1, name: 'Admin', email: 'admin@vasekdoskar.cz', password: 'admin123', role: 'admin' },
+    { id: 1, name: 'Admin',          email: 'admin@vasekdoskar.cz', password: 'admin123', role: 'admin' },
+    { id: 2, name: 'Testovací účet', email: 'ahoj@seznam.cz',       password: 'ahoj123',  role: 'user'  },
 ];
 
 /** @type {import('./$types').RequestHandler} */
